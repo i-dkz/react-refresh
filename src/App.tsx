@@ -1,7 +1,8 @@
+import { Button, ButtonGroup } from '@chakra-ui/react'
 
 const App = () => {
   return (
-    <div>App</div>
+    <div><Button colorScheme='blue'>Button</Button></div>
   )
 }
 
