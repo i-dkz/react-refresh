@@ -1,0 +1,17 @@
+
+
+span {
+  display: flex;
+  align-items: center;
+  height: auto;
+  width: 200px;
+}
+
+main {
+  padding: 50px;
+}
+
+.hide {
+  width: 200px;
+  height: 200px;
+}
