@@ -1,15 +1,23 @@
+import { useEffect, useState } from "react";
 import "./App.css";
-import ExpandableText from "./components/ExpandableText";
 import NavBar from "./components/NavBar";
+import ProductList from "./components/ProductList";
 
 function App() {
-  const handleClick = () => {};
+  const [category, setCategory] = useState('');
+
+
 
   return (
     <>
       <NavBar />
       <main>
-        <ExpandableText>Hello World</ExpandableText>
+        <select className="form-select" onChange={(e) => setCategory(e.target.value)}>
+          <option value=""></option>
+          <option value="Clothing">Clothing</option>
+          <option value="Household">Household</option>
+        </select>
+        <ProductList category={category}/>
       </main>
     </>
   );
