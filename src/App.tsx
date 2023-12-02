@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
-import axios, { AxiosError, CanceledError } from "axios";
-
-interface User {
-  id: number;
-  name: string;
-}
+import apiClient, { CanceledError } from "./services/api-client";
+import userService, { User } from "./services/user-service";
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
@@ -23,8 +19,7 @@ function App() {
 
     setUsers([newUser, ...users]);
 
-    axios
-      .post("https://jsonplaceholder.typicode.com/users/" + newUser)
+    userService.createUsers(newUser)
       .then(({ data: savedUser }) => setUsers([savedUser, ...users]))
       .catch((err) => {
         setError(err.message);
@@ -32,13 +27,10 @@ function App() {
       });
   };
 
+  // READ
   useEffect(() => {
-    const controller = new AbortController();
-
-    axios
-      .get<User[]>("https://jsonplaceholder.typicode.com/users", {
-        signal: controller.signal,
-      })
+    const { request, cancel } = userService.getAllUsers();
+    request
       .then((res) => {
         setUsers(res.data);
         setLoading(false);
@@ -49,31 +41,31 @@ function App() {
         setLoading(false);
       });
 
-    return () => controller.abort();
+    return () => cancel();
   }, []);
 
-  const deleteUser = (user: User) => {
-    const originalUsers = [...users];
-    setUsers(users.filter((u) => u.id !== user.id));
-
-    axios
-      .delete("https://jsonplaceholder.typicode.com/users/" + user.id)
-      .catch((err) => {
-        setError(err.message);
-        setUsers(originalUsers);
-      });
-  };
-
+  // UPDATE
   const updateUser = (user: User) => {
+    const originalUsers = [...users];
     const updatedUser = { ...user, name: user.name + "!" };
     setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
 
-    axios
-      .patch(
-        "https://jsonplaceholder.typicode.com/users/" + user.id,
-        updatedUser
-      )
-      .catch((err) => {});
+    const { request } = userService.updateUsers(updatedUser, user);
+    request.catch((err) => {
+      setError(err.message);
+      setUsers(originalUsers);
+    });
+  };
+
+  // DELETE
+  const deleteUser = (user: User) => {
+    const originalUsers = [...users];
+    setUsers(users.filter((u) => u.id !== user.id));
+    userService.deleteUsers(user.id)
+    .catch((err) => {
+      setError(err.message);
+      setUsers(originalUsers);
+    });
   };
 
   return (
