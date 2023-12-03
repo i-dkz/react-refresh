@@ -9,7 +9,7 @@ const CriticScore = ({ score }: Props) => {
 
   return (
     <>
-      <Tag variant="solid" colorScheme={color} color={color + ".200"}>
+      <Tag variant="solid" colorScheme={color} color={color + ".200"} fontSize={16}>
         {score}
       </Tag>
     </>
