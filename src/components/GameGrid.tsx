@@ -1,23 +1,18 @@
-import { List, ListIcon, ListItem, Text } from "@chakra-ui/react";
-import { MdCheckCircle } from "react-icons/md";
+import { SimpleGrid, Text } from "@chakra-ui/react";
 import useGames from "../hooks/useGames";
-
+import GameCard from "./GameCard";
 
 const GameGrid = () => {
-  const {games, error} = useGames();
+  const { games, error } = useGames();
 
   return (
     <>
       {error && <Text>{error}</Text>}
-      <List spacing={3}>
-        {games &&
-          games.map((game) => (
-            <ListItem key={game.id}>
-              <ListIcon as={MdCheckCircle} color="green.500" />
-              {game.name}
-            </ListItem>
-          ))}
-      </List>
+      <SimpleGrid columns={{sm:1, md: 2, lg: 3}} spacing={10} p={4}>
+        {games.map((game) => (
+          <GameCard key={game.id} game={game}/>
+        ))}
+      </SimpleGrid>
     </>
   );
 };

@@ -1,18 +1,5 @@
 
 
-span {
-  display: flex;
-  align-items: center;
-  height: auto;
-  width: 200px;
+img {
+  overflow: hidden;
 }
-
-main {
-  padding: 50px;
-}
-
-.hide {
-  width: 200px;
-  height: 200px;
-}
-
