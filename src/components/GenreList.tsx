@@ -1,13 +1,19 @@
-import { HStack, List, ListItem, Image, Text } from "@chakra-ui/react";
-import useGenres from "../hooks/useGenres";
+import { HStack, List, ListItem, Image, Button } from "@chakra-ui/react";
+import useGenres, { Genre } from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
 import GenreSkeleton from "./GenreSkeleton";
 
-const GenreList = () => {
-  const { data, isLoading } = useGenres();
+interface Props {
+  onSelectGenre: (genre: Genre) => void;
+}
+
+const GenreList = ({onSelectGenre} : Props) => {
+  const { data, isLoading, error } = useGenres();
 
   if (isLoading) return <GenreSkeleton />
-  
+
+  if (error) return null;
+
   return (
     <List>
       {data.map((genre) => (
@@ -18,7 +24,7 @@ const GenreList = () => {
               boxSize={"32px"}
               borderRadius={8}
             />
-            <Text fontSize={"lg"}>{genre.name}</Text>
+            <Button onClick={() => onSelectGenre(genre)} fontSize={"lg"}>{genre.name === 'Massively Multiplayer' ? 'MMO' : genre.name}</Button>
           </HStack>
         </ListItem>
       ))}
