@@ -5,12 +5,13 @@ import GenreSkeleton from "./GenreSkeleton";
 
 interface Props {
   onSelectGenre: (genre: Genre) => void;
+  selectedGenre: Genre | null;
 }
 
-const GenreList = ({onSelectGenre} : Props) => {
+const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
   const { data, isLoading, error } = useGenres();
 
-  if (isLoading) return <GenreSkeleton />
+  if (isLoading) return <GenreSkeleton />;
 
   if (error) return null;
 
@@ -24,7 +25,14 @@ const GenreList = ({onSelectGenre} : Props) => {
               boxSize={"32px"}
               borderRadius={8}
             />
-            <Button onClick={() => onSelectGenre(genre)} fontSize={"lg"}>{genre.name === 'Massively Multiplayer' ? 'MMO' : genre.name}</Button>
+            <Button
+              colorScheme={genre.id === selectedGenre?.id ? "teal" : undefined}
+              
+              onClick={() => onSelectGenre(genre)}
+              fontSize={"md"}
+            >
+              {genre.name === "Massively Multiplayer" ? "MMO" : genre.name}
+            </Button>
           </HStack>
         </ListItem>
       ))}
