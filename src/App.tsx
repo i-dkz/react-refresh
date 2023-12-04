@@ -32,7 +32,7 @@ const App = () => {
         <NavBar />
       </GridItem>
       <Show above="lg">
-        <GridItem area="aside" paddingX={2} paddingY={4}>
+        <GridItem area="aside" paddingX={2}>
           <GenreList
             selectedGenre={gameQuery.genre}
             onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
