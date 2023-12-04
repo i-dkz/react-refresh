@@ -5,11 +5,18 @@ interface Props {
 }
 
 const CriticScore = ({ score }: Props) => {
-  let color = score > 85 ? "green" : score > 65 ? "yellow" : "red";
+  let color = score > 85 ? "green" : score > 65 ? "yellow" : undefined;
 
+  if (score === null) return ;
+  
   return (
     <>
-      <Tag variant="solid" colorScheme={color} color={color + ".200"} fontSize={16}>
+      <Tag
+        variant="solid"
+        colorScheme={color}
+        textColor={color + ".200"}
+        fontSize={16}
+      >
         {score}
       </Tag>
     </>
